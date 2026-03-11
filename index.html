@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Task API - Hiren</title>
+  <style>
+    body { font-family: sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; }
+    h1 { border-bottom: 2px solid #000; padding-bottom: 8px; }
+    h2 { margin-top: 40px; }
+    pre { background: #f4f4f4; padding: 16px; border-radius: 4px; overflow-x: auto; }
+    video { width: 100%; margin-top: 8px; border: 1px solid #ccc; border-radius: 4px; }
+    table { border-collapse: collapse; width: 100%; margin-top: 10px; }
+    th, td { border: 1px solid #ccc; padding: 8px 12px; text-align: left; }
+    th { background: #f0f0f0; }
+    a { color: #0066cc; }
+    .video-section { margin-bottom: 32px; }
+  </style>
+</head>
+<body>
+
+  <h1>Task API — Hiren</h1>
+  <p>Node.js · Express.js · TypeScript · JWT Auth · Swagger · Jest</p>
+  <p>
+    <a href="https://github.com/hiren14/task_api_hiren_6354753667/archive/refs/heads/main.zip" download>⬇ Download ZIP</a>
+    &nbsp;&nbsp;
+    <a href="https://github.com/hiren14/task_api_hiren_6354753667" target="_blank">View on GitHub</a>
+  </p>
+
+  <!-- VIDEOS -->
+  <h2>1. Video Walkthroughs</h2>
+
+  <div class="video-section">
+    <strong>Setup &amp; Run</strong>
+    <video controls src="videos/setup_cmd.mkv">Your browser does not support video.</video>
+  </div>
+
+  <div class="video-section">
+    <strong>Swagger UI Demo</strong>
+    <video controls src="videos/swagger_ui.mkv">Your browser does not support video.</video>
+  </div>
+
+  <div class="video-section">
+    <strong>Test Case Execution</strong>
+    <video controls src="videos/test_cases.mkv">Your browser does not support video.</video>
+  </div>
+
+  <!-- SETUP -->
+  <h2>2. Setup Commands</h2>
+  <pre>
+# Clone the repo
+git clone https://github.com/hiren14/task_api_hiren_6354753667.git
+cd task_api_hiren_6354753667
+
+# Install dependencies
+npm install
+
+# Copy and edit environment variables
+cp .env.example .env
+# Set DB_HOST, DB_PORT, DB_USER, DB_PASS, DB_NAME, JWT_SECRET
+# check is that database exists or not, if not then create it
+
+# Run migrations
+npm run migrate
+
+# Start dev server
+npm run dev
+
+# API     → http://localhost:3000
+# Swagger → http://localhost:3000/api/docs
+  </pre>
+
+  <!-- SWAGGER -->
+  <h2>3. API Endpoints (Swagger UI at /api-docs)</h2>
+  <table>
+    <thead>
+      <tr><th>Method</th><th>Endpoint</th><th>Description</th><th>Auth</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>POST</td><td>/auth/login</td><td>Get JWT token</td><td>No</td></tr>
+      <tr><td>GET</td><td>/tasks</td><td>List all tasks (paginated)</td><td>Yes</td></tr>
+      <tr><td>GET</td><td>/tasks/:id</td><td>Get task by ID</td><td>Yes</td></tr>
+      <tr><td>POST</td><td>/tasks</td><td>Create a task</td><td>Yes</td></tr>
+      <tr><td>PATCH</td><td>/tasks/:id</td><td>Update a task</td><td>Yes</td></tr>
+      <tr><td>DELETE</td><td>/tasks/:id</td><td>Soft delete a task</td><td>Yes</td></tr>
+      <tr><td>GET</td><td>/api-docs</td><td>Swagger UI</td><td>No</td></tr>
+    </tbody>
+  </table>
+  <p><strong>Note:</strong> Protected routes require <code>Authorization: Bearer &lt;token&gt;</code> header.</p>
+
+  <!-- TESTS -->
+  <h2>4. Run Test Cases</h2>
+  <pre>
+# Run all tests
+npm run test
+  </pre>
+
+</body>
+</html>
