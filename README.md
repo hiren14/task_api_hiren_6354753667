@@ -1,6 +1,6 @@
 # Tasks API — Express.js + TypeScript + Knex
 
-A production-ready RESTful API for managing tasks, built with **Express.js**, **TypeScript**, **Knex.js** (migrations), **Zod** (validation), **JWT** (authentication), and **Swagger** (docs).
+A production-ready RESTful API for managing tasks, built with **Express.js**, **TypeScript**, **Knex.js** (migrations), **Joi** (validation), **JWT** (authentication), and **Swagger** (docs).
 
 ---
 
@@ -12,7 +12,7 @@ A production-ready RESTful API for managing tasks, built with **Express.js**, **
 | Framework      | Express.js                           |
 | Database       | PostgreSQL                           |
 | Query Builder  | Knex.js (with migrations & seeds)    |
-| Validation     | Zod                                  |
+| Validation     | Joi                                  |
 | Authentication | JWT (jsonwebtoken + bcryptjs)        |
 | API Docs       | Swagger UI (swagger-jsdoc)           |
 | Testing        | Jest + ts-jest (29 tests)            |
@@ -35,10 +35,10 @@ tasks-api/
 │   ├── middleware/
 │   │   ├── auth.middleware.ts         # JWT Bearer token guard
 │   │   ├── error.middleware.ts        # Global error + 404 handlers
-│   │   └── validate.middleware.ts     # Zod validation factory
+│   │   └── validate.middleware.ts     # Joi validation factory
 │   ├── migrations/
-│   │   ├── 20240101_001_create_users_table.ts
-│   │   └── 20240101_002_create_tasks_table.ts
+│   │   ├── 20260311162233_create_user.ts
+│   │   └── 20260311162334_create_tasks
 │   ├── routes/
 │   │   ├── task.routes.ts             # /api/tasks (Swagger annotated)
 │   │   └── auth.routes.ts             # /api/auth (Swagger annotated)
@@ -55,8 +55,8 @@ tasks-api/
 │   ├── types/
 │   │   └── index.ts                   # Shared TS interfaces & types
 │   └── validators/
-│       ├── task.validator.ts          # Zod schemas for task endpoints
-│       └── auth.validator.ts          # Zod schemas for auth endpoint
+│       ├── task.validator.ts          # Joi schemas for task endpoints
+│       └── auth.validator.ts          # Joi schemas for auth endpoint
 ├── knexfile.ts                        # Knex config (dev/test/prod)
 ├── tsconfig.json
 ├── jest.config.js
@@ -208,7 +208,7 @@ curl "http://localhost:3000/api/tasks?page=1&limit=5" \
 
 - **Soft Delete** — `deleted_at` is set instead of removing the row; all queries filter `WHERE deleted_at IS NULL`.
 - **Auto `completed_at`** — Automatically set when status → `completed`; cleared when status moves away.
-- **Zod validation** — Applied via middleware factory before every controller; returns `422` with field-level errors.
+- **Joi validation** — Applied via middleware factory before every controller; returns `422` with field-level errors.
 - **JWT guard** — Applied at router level to all `/api/tasks` routes. Handles expired vs invalid tokens distinctly.
 - **Global error handler** — Catches all unhandled errors; sanitizes 500 messages in production.
 

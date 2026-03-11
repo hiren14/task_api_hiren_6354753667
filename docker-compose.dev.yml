@@ -1,0 +1,30 @@
+services:
+
+  # ─── PostgreSQL (same as base) ───────────────────────────────────────────────
+  postgres:
+    environment:
+      POSTGRES_DB: ${DB_NAME:-tasks_db}
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+
+  # ─── API (dev override — hot reload via ts-node-dev) ─────────────────────────
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      target: ""
+    container_name: tasks_api_dev
+    environment:
+      NODE_ENV: development
+      RUN_SEEDS: "true"           # Auto-seed on first dev boot
+    volumes:
+      # Mount source for hot reload — node_modules stays in container
+      - ./src:/app/src:delegated
+      - ./knexfile.ts:/app/knexfile.ts:delegated
+      - ./tsconfig.json:/app/tsconfig.json:delegated
+      - /app/node_modules        # Anonymous volume — keeps container's node_modules
+    command: ["dumb-init", "--", "sh", "-c",
+      "until pg_isready -h postgres -U ${DB_USER:-postgres}; do sleep 1; done &&
+       npx knex migrate:latest --knexfile knexfile.ts &&
+       npx knex seed:run --knexfile knexfile.ts &&
+       npm run dev"]

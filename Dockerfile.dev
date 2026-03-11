@@ -1,0 +1,21 @@
+# ─── Development image ───────────────────────────────────────────────────────
+# Uses ts-node-dev for hot reload — source is bind-mounted from the host.
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Install dumb-init + postgresql-client (for pg_isready in dev compose command)
+RUN apk add --no-cache dumb-init postgresql-client
+
+# Install all dependencies (dev + prod)
+COPY package*.json ./
+RUN npm ci
+
+# Copy config files — actual src/ is bind-mounted at runtime
+COPY tsconfig.json ./
+COPY knexfile.ts ./
+
+EXPOSE 3000
+
+# Default command — overridden by docker-compose.dev.yml
+CMD ["npm", "run", "dev"]
